@@ -1,3 +1,4 @@
-let Vue = window.Vue
+import Vue from 'vue'
 
-Vue.component('jb-icon', require('./JbIcon.vue').default);
+import JbIcon from './JbIcon.vue'
+Vue.component('jb-icon', JbIcon)

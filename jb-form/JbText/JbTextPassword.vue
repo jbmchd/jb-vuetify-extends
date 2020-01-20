@@ -1,48 +1,73 @@
 <template>
+  <!-- <jb-text
+    :ref="bootstrapvue_ref('jb-text')"
+    v-model="$v.vmodel.$model"
+    v-bind="this.$attrs"
+    v-on="this.$listeners"
+    :label="_label"
+    :type="_type"
+  >
+    <b-btn
+      slot="append"
+      variant="primary"
+      class="px-2"
+      @click="alternarExibicao"
+      ><i :class="_append_icon"></i
+    ></b-btn>
+  </jb-text> -->
+  <jb-text
+        ref="jb-text"
 
-    <jb-text
-        :ref="vuetify_ref"
-        v-model="vmodel"
+        v-model="$v.vmodel.$model"
         v-bind="this.$attrs"
         v-on="this.$listeners"
+        :label="_label"
+        :type="_type"
 
-        :label="label_cp"
-        :type="type_cp"
-        :append-icon="append_icon_cp"
-        :regras="regras"
-
+        :append-icon="_append_icon"
         @click:append="alternarExibicao"
     ></jb-text>
-
 </template>
 
 <script>
-
-import {inputBaseMixin} from '../mixins/jb-v-mixin-input-base'
+import inputBaseMixin from "../mixins/jb-v-mixin-input-base";
 
 export default {
-    mixins: [inputBaseMixin],
-    data() { return {
-        senha_visivel:false,
-    }},
-    computed:{
-        label_cp(){
-            return this.label || 'Senha'
-        },
-        type_cp(){
-            return this.senha_visivel ? 'text' : 'password'
-        },
-        append_icon_cp(){
-            return this.senha_visivel ? 'mdi-eye-outline' : 'mdi-eye-off-outline'
-        },
-        vuetify_ref(){
-            return this.ref || 'jb-text'
-        }
+  mixins: [inputBaseMixin],
+  data() {
+    return {
+      senha_visivel: false
+    };
+  },
+  computed: {
+    _label() {
+      return this.label || "Senha";
     },
-    methods:{
-        alternarExibicao(){
-            this.senha_visivel = !this.senha_visivel
-        },
+    _type() {
+      return this.senha_visivel ? "text" : "password";
+    },
+    _append_icon() {
+      return this.senha_visivel
+        ? "mdi mdi-eye-outline"
+        : "mdi mdi-eye-off-outline";
     }
-}
+  },
+  mounted(){
+    let jbText = this.$refs['jb-text']
+    jbText.regras = this.regras    
+    
+    if(this.vmodel){
+      this.$v.vmodel.$touch()
+      jbText.$v.vmodel.$touch()
+    }
+  },
+  methods: {
+    resetValidation(){
+      this.$refs['jb-text'].resetValidation()
+    },
+    alternarExibicao() {
+      this.senha_visivel = !this.senha_visivel;
+    }
+  }
+};
 </script>

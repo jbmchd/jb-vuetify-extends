@@ -1,3 +1,4 @@
-let Vue = window.Vue
+import Vue from 'vue'
 
-Vue.component('jb-dialog', require('./JbDialog.vue').default);
+import JbDialog from './JbDialog.vue'
+Vue.component('jb-dialog', JbDialog)

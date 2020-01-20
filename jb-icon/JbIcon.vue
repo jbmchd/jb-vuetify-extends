@@ -1,99 +1,38 @@
 <template>
 
-    <v-tooltip v-if="ttText" :bottom="ttBottom">
-
-        <template v-slot:activator="{ on }">
-            <v-icon
-                :ref="vuetify_ref"
-                v-on="on"
-
-                :color="color"
-                :dark="dark"
-                :dense="dense"
-                :disabled="disabled"
-                :large="large"
-                :left="left"
-                :light="light"
-                :right="right"
-                :size="size"
-                :small="small"
-                :tag="tag"
-                :xLarge="xLarge"
-                :xSmall="xSmall"
-
-                @click="$emit('click')"
-                :class="classes"
+    <span>
+        <v-tooltip top :disabled="!tooltip_options.message">
+        <template v-slot:activator="{ on: onTooltip  }">
+            <v-icon 
+                ref="v-icon"
+                v-bind="$attrs"
+                v-on="onTooltip"
             >
                 <slot></slot>
             </v-icon>
         </template>
 
-        <span style="font-size:small">{{ttText}}</span>
-
-    </v-tooltip>
-
-    <v-icon v-else
-        :ref="vuetify_ref"
-
-        :color="color"
-        :dark="dark"
-        :dense="dense"
-        :disabled="disabled"
-        :large="large"
-        :left="left"
-        :light="light"
-        :right="right"
-        :size="size"
-        :small="small"
-        :tag="tag"
-        :xLarge="xLarge"
-        :xSmall="xSmall"
-
-        @click="$emit('click')"
-        :class="classes"
-    >
-        <slot></slot>
-    </v-icon>
+        <span>{{tooltip_options.message}}</span>
+      </v-tooltip>
+    </span>
 
 </template>
 <script>
 
 export default {
     props:{
-        ttBottom:{type:Boolean, default:true},
-        ttText:String,
-        type:String,
-
-        // VUETIFY
-        color:{type:String, default:'primary'},
-        dark: Boolean,
-        dense: Boolean,
-        disabled: Boolean,
-        large: Boolean,
-        left: Boolean,
-        light: Boolean,
-        right: Boolean,
-        size: {type:[String,Number]},
-        small: Boolean,
-        tag: {type:String, default:'i'},
-        xLarge: Boolean,
-        xSmall: Boolean,
+        tooltip:{type:[String, Object]}
     },
-    data(){ return {
-        classes:'',
+    data(){return {
+        tooltip_default_options: {
+            message: null,
+        },
     }},
-    computed:{
-        vuetify_ref(){
-            return this.ref || 'v-icon'
-        }
-    },
-    created(){
-        this.classes = this.$vnode.data.staticClass;
-    },
-    mounted(){
-        if( ! this.$listeners.click){
-            //remove a classe de link se não passar nenhum evento click
-            this.$refs['v-icon'].$el.classList.remove('v-icon--link')
+    computed: {
+        tooltip_options(){
+            let tooltip = typeof this.tooltip == 'string' ? {message: this.tooltip} : this.tooltip
+            tooltip = Object.assign(this.tooltip_default_options, tooltip)
+            return tooltip
         }
     },
 }
