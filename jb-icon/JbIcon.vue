@@ -6,7 +6,7 @@
                 <v-icon 
                     ref="v-icon"
                     v-bind="$attrs"
-                    v-on="{...onTooltip, ...listeners}"
+                    v-on="{...onTooltip, ...getListeners}"
                 >
                     <slot></slot>
                 </v-icon>
@@ -29,7 +29,7 @@ export default {
         },
     }},
     computed: {
-        listeners(){
+        getListeners(){
             return this.$listeners
         },
         tooltip_options(){
