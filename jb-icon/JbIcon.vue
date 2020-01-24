@@ -2,15 +2,15 @@
 
     <span>
         <v-tooltip top :disabled="!tooltip_options.message">
-        <template v-slot:activator="{ on: onTooltip  }">
-            <v-icon 
-                ref="v-icon"
-                v-bind="$attrs"
-                v-on="onTooltip"
-            >
-                <slot></slot>
-            </v-icon>
-        </template>
+            <template v-slot:activator="{ on: onTooltip  }">
+                <v-icon 
+                    ref="v-icon"
+                    v-bind="$attrs"
+                    v-on="{...onTooltip, ...listeners}"
+                >
+                    <slot></slot>
+                </v-icon>
+            </template>
 
         <span>{{tooltip_options.message}}</span>
       </v-tooltip>
@@ -29,6 +29,9 @@ export default {
         },
     }},
     computed: {
+        listeners(){
+            return this.$listeners
+        },
         tooltip_options(){
             let tooltip = typeof this.tooltip == 'string' ? {message: this.tooltip} : this.tooltip
             tooltip = Object.assign(this.tooltip_default_options, tooltip)
