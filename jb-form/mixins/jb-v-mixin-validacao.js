@@ -24,7 +24,7 @@ const validacaoMixin = {
           }
           
         },
-        igualA: v => this.$jb.validar.igual_a(v)
+        igualA: v => this.$jb.validar.igual_a(v, this)
       }
     }
   },
