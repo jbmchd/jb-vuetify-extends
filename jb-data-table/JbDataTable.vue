@@ -44,12 +44,11 @@
                 <template v-for="(header, key) in headers" >
 
                     <td :class="pegarClassePeloAlign(header)" :key="key">
-                        <template v-if="header.value!='actions'">
-                            {{ formatter(header, item[header.value]) }}
-                        </template>
-                        <template v-else>
+                        <div v-html="formatter(header, item[header.value])" v-if="header.value!='actions'">
+                        </div>
+                        <div v-else>
                             <slot name="item.actions" :item="item" :header="header" :value="header.value"></slot>
-                        </template>
+                        </div>
                     </td>
 
                 </template>

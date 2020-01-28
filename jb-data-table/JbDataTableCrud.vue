@@ -61,14 +61,20 @@
     </template>
 
     <jb-form ref="jb-form" v-bind="form_options" v-model="form.valido">
-      <slot></slot>
+      <slot name="form" :valido="form.valido">
+        <slot></slot>
+      </slot>
     </jb-form>
 
     <template #actions>
       <v-row no-gutters>
         <v-col cols="12" align="end">
-          <v-btn small text color="grey" @click="dialogCancel()"> Cancelar </v-btn>
-          <v-btn small text color="primary" @click="saveConfirm()" :disabled="!form.valido" > Confirmar </v-btn>
+          <slot name="form-botao-cancelar" :cancelar="dialogCancel">
+            <v-btn small text color="grey" @click="dialogCancel()"> Cancelar </v-btn>
+          </slot>
+          <slot name="form-botao-salvar" :salvarConfirm="salvarConfirm">
+            <v-btn small text color="primary" @click="salvarConfirm()" :disabled="!form.valido" > Confirmar </v-btn>
+          </slot>
         </v-col>
       </v-row>
     </template>
@@ -214,12 +220,8 @@ export default {
         }
       })
     },
-    saveConfirm () {
+    salvarConfirm () {
       
-      if(!this.formValido){
-        return false
-      }
-
       this.form.valido = false
 
       let item = this.form.dados
