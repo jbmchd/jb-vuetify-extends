@@ -1,20 +1,4 @@
 <template>
-  <!-- <jb-text
-    :ref="bootstrapvue_ref('jb-text')"
-    v-model="$v.vmodel.$model"
-    v-bind="this.$attrs"
-    v-on="this.$listeners"
-    :label="_label"
-    :type="_type"
-  >
-    <b-btn
-      slot="append"
-      variant="primary"
-      class="px-2"
-      @click="alternarExibicao"
-      ><i :class="_append_icon"></i
-    ></b-btn>
-  </jb-text> -->
   <jb-text
         ref="jb-text"
 
@@ -54,8 +38,8 @@ export default {
   },
   mounted(){
     let jbText = this.$refs['jb-text']
-    jbText.regras = this.regras    
-    
+    jbText.regras = this.regras
+
     if(this.vmodel){
       this.$v.vmodel.$touch()
       jbText.$v.vmodel.$touch()

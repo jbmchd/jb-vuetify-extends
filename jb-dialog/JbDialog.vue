@@ -23,7 +23,7 @@
       <slot name="actions"></slot>
     </v-card-actions>
 
-    
+
   </v-card>
 
   </v-dialog>
@@ -45,7 +45,7 @@
   },
   methods:{
     fechar(){
-      if(this.$jb.object.hasKey('fechar',this.$listeners)){
+      if(this.$jb.object(this.$listeners).hasKey('fechar')){
         this.$emit('fechar', this);
       }
       else {

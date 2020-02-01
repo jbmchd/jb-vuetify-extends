@@ -20,13 +20,13 @@
       </slot>
 
       <v-spacer></v-spacer>
-      
+
       <slot name="top-right">
         <v-col class="col-4 ">
           <jb-text v-model="table.search" placeholder="Pesquisar" >
             <v-btn #append color="primary" :disabled="!table.search" @click="table.search = ''"> <v-icon>mdi mdi-close-circle-outline</v-icon> </v-btn>
           </jb-text>
-        </v-col> 
+        </v-col>
       </slot>
     </v-row>
   </template>
@@ -46,11 +46,11 @@
   </template>
 
   </jb-data-table>
-  
-  <jb-dialog 
+
+  <jb-dialog
     v-bind="dialog_options"
-    v-model="dialog_options.mostrar" 
-    :titulo="formTitulo" 
+    v-model="dialog_options.mostrar"
+    :titulo="formTitulo"
   >
 
     <template v-slot:top>
@@ -78,9 +78,6 @@
         </v-col>
       </v-row>
     </template>
-
-    <!-- <template v-slot:dialog-footer="{ ok, cancel, hide }"> -->
-    <!-- </template>  -->
 
   </jb-dialog>
 
@@ -143,14 +140,14 @@ export default {
     formValido() {return this.form.valido && this.form_options.valido},
     tableSearch(){ return this.search || this.table.search },
     tableItems(){ return this.$attrs.items },
-    
+
   },
-  created () {    
+  created () {
     this.table.index_selecionado = -1
-    this.dadosReset = this.$jb.object.copiar(this.form.dados)
+    this.$jb.copiar(this.form.dados)
   },
   methods: {
-    
+
     preNovo(...params){this.$emit('pre-novo', ...params)},
     preEditar(item, index, ...params){
       this.$emit('pre-editar', item, index, ...params)
@@ -183,7 +180,7 @@ export default {
       if( ! this.dialog_options.manter_aberto){
         this.dialog_options.mostrar = false
       }
-      
+
       this.resetar()
       this.posFechar()
     },
@@ -213,15 +210,15 @@ export default {
             this.$emit('ativar-inativar',item,index)
           }
           else {
-            item.ativo = !item.ativo            
+            item.ativo = !item.ativo
             this.$emit('salvar',item, this)
           }
-          
+
         }
       })
     },
     salvarConfirm () {
-      
+
       this.form.valido = false
 
       let item = this.form.dados

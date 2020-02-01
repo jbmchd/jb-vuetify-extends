@@ -16,7 +16,7 @@
                       <v-btn slot="append" variant="primary" :disabled="!pesquisar" @click="pesquisar = ''"> <jb-icone>mdi mdi-close-circle-outline</jb-icone> </v-btn>
                     </jb-text>
                     {{pesquisar}}
-                  </v-col> 
+                  </v-col>
                 </slot>
               </v-row>
             </slot>
@@ -105,7 +105,7 @@ export default {
 
         let formatter = header.formatter
         let tipo = typeof formatter
-      
+
         if(tipo == 'function'){
           return formatter(value)
         }
@@ -128,13 +128,13 @@ export default {
         return date.isValid() ? date.format('DD/MM/YYYY HH:mm:ss') : null
       },
       currency(value){
-        return this.$jb.mascara.moeda(value)
+        return this.$jb.mascara(value).moeda()
       },
       cpf(value){
-        return this.$jb.mascara.cpf(value)
+        return this.$jb.mascara(value).cpf()
       },
       cnpj(value){
-        return this.$jb.mascara.cnpj(value)
+        return this.$jb.mascara(value).cnpj()
       },
 
       pegarClassePeloAlign(header){

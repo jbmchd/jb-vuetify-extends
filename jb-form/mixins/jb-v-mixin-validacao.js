@@ -10,21 +10,21 @@ const validacaoMixin = {
       regras: [],
       regras_obj: {},
       custom_validators: {
-        cpf: v => this.$jb.validar.cpf(v),
-        cpf_simples: v => this.$jb.validar.cpf(v, true),
-        cnpj: v => this.$jb.validar.cnpj(v),
-        cnpj: v => this.$jb.validar.cnpj(v, true),
+        cpf: v => this.$jb.validar(v).cpf(),
+        cpf_simples: v => this.$jb.validar(v).cpf(true),
+        cnpj: v => this.$jb.validar(v).cnpj(),
+        cnpj: v => this.$jb.validar(v).cnpj(true),
         cpf_cnpj: v => {
           var numero = v && v.match(/\d+/g) ? v.match(/\d+/g).join('') : 0
           if(numero.length <= 11){
-            return this.$jb.validar.cpf(numero, true)
+            return this.$jb.validar(numero).cpf(true)
           }
           else {
-            return this.$jb.validar.cnpj(numero, true)
+            return this.$jb.validar(numero).cnpj(true)
           }
-          
+
         },
-        igualA: v => this.$jb.validar.igual_a(v, this)
+        igualA: v => this.$jb.validar(v).igual_a(this)
       }
     }
   },
@@ -39,13 +39,13 @@ const validacaoMixin = {
       if(this.$v.vmodel.$anyError) {
         for (const key in this.regras) {
           const regra = this.regras[key];
-          let nome_regra = regra 
+          let nome_regra = regra
           let params = null
           if(typeof regra != 'string'){
             nome_regra = Object.keys(regra)[0]
             params = regra[nome_regra]
           }
-          
+
           if(!this.$v.vmodel[nome_regra]){
             return this.getMessageError(nome_regra, params)
           }
@@ -74,7 +74,7 @@ const validacaoMixin = {
         case 'maxLength':
           mensagem_erro = `Não digite mais que ${params} caracteres`
           break
-        case 'cpf': 
+        case 'cpf':
         case 'cpf_simples':
           mensagem_erro = `Digite um CPF válido`
           break
@@ -98,7 +98,7 @@ const validacaoMixin = {
     if(typeof this.regras=='string'){
       this.regras = this.regras.split('|')
     }
-    
+
     if (!this.regras.length || typeof this.regras != 'object') {
       return { vmodel: {} }
     }
@@ -108,14 +108,14 @@ const validacaoMixin = {
     let regra_temp = {}
 
     this.regras.forEach(regra => {
-      
+
       if (typeof regra == 'string') {
         regra = { [regra]: null }
       }
 
       let key = Object.keys(regra)[0]
-      
-      if (this.$jb.object.hasKey(key, validators)) {
+
+      if (this.$jb.object(validators).hasKey(key)) {
         let validator = regra[key]
           ? validators[key](regra[key])
           : validators[key]
@@ -129,7 +129,7 @@ const validacaoMixin = {
         this.regras_obj = Object.assign({}, this.regras_obj, regra_temp)
       }
     })
-    
+
     return { vmodel: this.regras_obj }
   }
 }
