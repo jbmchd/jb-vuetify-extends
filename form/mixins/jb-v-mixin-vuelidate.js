@@ -1,22 +1,21 @@
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
 import * as validators from 'vuelidate/lib/validators'
+import moment from 'moment'
 
 Vue.use(Vuelidate)
 
 const validacaoMixin = {
-  data() {
+  data () {
     return {
-      regras: [],
-      regras_obj: {},
       custom_validators: {
         cpf: v => this.$jb.validar(v).cpf(),
         cpf_simples: v => this.$jb.validar(v).cpf(true),
         cnpj: v => this.$jb.validar(v).cnpj(),
-        cnpj: v => this.$jb.validar(v).cnpj(true),
+        cnpj_simples: v => this.$jb.validar(v).cnpj(true),
         cpf_cnpj: v => {
           var numero = v && v.match(/\d+/g) ? v.match(/\d+/g).join('') : 0
-          if(numero.length <= 11){
+          if (numero.length <= 11) {
             return this.$jb.validar(numero).cpf(true)
           }
           else {
@@ -24,42 +23,44 @@ const validacaoMixin = {
           }
 
         },
-        igualA: v => this.$jb.validar(v).igual_a(this)
-      }
+        igualA: v => this.$jb.validar(v).igual_a(this),
+        date: () => {
+            let date = this.value_data
+            return moment(date, moment.ISO_8601).isValid()
+        },
+        datetime: () => {
+            let date = this.value_data
+            return moment(date, moment.ISO_8601).isValid()
+        },
+
+      },
     }
   },
   computed: {
-    eObrigatorio() {
-      return Object.keys(this.regras_obj).indexOf('required') > -1
-    },
-    validacao_com_erro() {
-      return this.$v.vmodel.$dirty ? this.$v.vmodel.$error : null
-    },
-    vmodel_erros(){
-      if(this.$v.vmodel.$anyError) {
+    vmodel_erros_vuelidate () {
+      if (this.$v.vmodel.$anyError) {
         for (const key in this.regras) {
           const regra = this.regras[key];
           let nome_regra = regra
           let params = null
-          if(typeof regra != 'string'){
+          if (typeof regra != 'string') {
             nome_regra = Object.keys(regra)[0]
             params = regra[nome_regra]
           }
 
-          if(!this.$v.vmodel[nome_regra]){
+          if (!this.$v.vmodel[nome_regra]) {
             return this.getMessageError(nome_regra, params)
           }
         }
       }
-
-      return []
+      return null
     }
   },
   methods: {
-    resetValidation(){
+    resetVuelidateValidation () {
       this.$v.$reset()
     },
-    getMessageError(tipo, ...params) {
+    getMessageError (tipo, ...params) {
       let mensagem_erro = ''
       switch (tipo) {
         case 'required':
@@ -90,12 +91,18 @@ const validacaoMixin = {
           params = params.join(',').toUpperCase()
           mensagem_erro = `O valor precisa ser o mesmo do campo ${params}`
           break
+        case 'date':
+          mensagem_erro = `Digite uma data válida`
+          break
+        case 'datetime':
+          mensagem_erro = `Digite uma data/hora válida`
+          break
       }
       return mensagem_erro
     }
   },
-  validations() {
-    if(typeof this.regras=='string'){
+  validations () {
+    if (typeof this.regras == 'string') {
       this.regras = this.regras.split('|')
     }
 

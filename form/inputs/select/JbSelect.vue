@@ -16,7 +16,7 @@
 
 <script>
 
-import inputBaseMixin from './mixins/jb-v-mixin-input-base'
+import inputBaseMixin from './../../mixins/jb-v-mixin-input-base'
 
 export default {
     mixins: [inputBaseMixin],

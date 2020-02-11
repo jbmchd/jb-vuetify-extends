@@ -70,6 +70,19 @@ const inputBaseMixin = {
         }
       }
       return value
+    },
+    extenderValidacaoDoFilho(){
+        let filho = this.$children[0]
+        filho.regras = this.regras
+
+        if(this.vmodel){
+            this.$v.vmodel.$touch()
+            filho.$v.vmodel.$touch()
+        }
+    },
+    resetarValidacaoNoFilho(){
+        let filho = this.$children[0]
+        filho.resetValidation()
     }
   }
 }

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import inputBaseMixin from "../mixins/jb-v-mixin-input-base";
+import inputBaseMixin from "../../mixins/jb-v-mixin-input-base";
 
 export default {
   mixins: [inputBaseMixin],
@@ -37,17 +37,12 @@ export default {
     }
   },
   mounted(){
-    let jbText = this.$refs['jb-text']
-    jbText.regras = this.regras
-
-    if(this.vmodel){
-      this.$v.vmodel.$touch()
-      jbText.$v.vmodel.$touch()
-    }
+    this.extenderValidacaoDoFilho()
   },
   methods: {
     resetValidation(){
-      this.$refs['jb-text'].resetValidation()
+    //   this.$refs['jb-text'].resetValidation()
+        this.resetarValidacaoNoFilho()
     },
     alternarExibicao() {
       this.senha_visivel = !this.senha_visivel;

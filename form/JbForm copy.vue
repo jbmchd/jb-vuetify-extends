@@ -17,8 +17,6 @@
 </template>
 
 <script>
-
-
 export default {
   props: {
     validar: { type: Boolean, default: true },
@@ -47,7 +45,7 @@ export default {
       let campos = this.$refs['v-form'].$children
       campos.forEach(campo => {
         if (campo.hasOwnProperty("$v")) {
-          
+
           campo.resetValidation()
         }
       });
@@ -59,10 +57,10 @@ export default {
     validarForm(){
       let valid = true
       let campos = this.$refs['v-form'].$children
-      
+
       for (const key in campos) {
         const el = campos[key];
-        
+
         if (el.hasOwnProperty("$v")) {
           let vmodel = el.$v.vmodel
           let value = vmodel.$model
@@ -70,17 +68,16 @@ export default {
           if(e_obrigatorio && this.exibirMensagemCamposObrigatorios){
             this.mensagem_campos_obrigatorio.exibir = true
           }
-
           let validar_campo = e_obrigatorio || value || Object.keys(vmodel).includes('igualA')
-          
+
           if(validar_campo && vmodel.$invalid){
             valid = false;
             break;
           }
-          
+
         }
       }
-      this.valid = valid  
+      this.valid = valid
       this.emitInput()
     },
     submit(e) {

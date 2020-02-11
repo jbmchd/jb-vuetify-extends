@@ -1,5 +1,5 @@
 <template>
-  <v-text-field 
+  <v-text-field
     ref="v-text-field"
     v-on="inputListeners"
     v-bind="this.$attrs"
@@ -11,17 +11,33 @@
 
     @input="$v.vmodel.$touch()"
     @blur="$v.vmodel.$touch()"
+
+    :autofocus="autofocus"
+    :dense="dense"
+    :clearable="clearable"
+    :readonly="readonly"
+    :loading="isLoading"
   ></v-text-field>
 
 </template>
 
 <script>
-import inputBaseMixin from '../mixins/jb-v-mixin-input-base'
+import inputBaseMixin from '../../mixins/jb-v-mixin-input-base'
 
 export default {
   mixins: [inputBaseMixin],
   props: {
-    id: { type: String, default: '' }
+    id: { type: String, default: '' },
+    autofocus:Boolean,
+    dense:Boolean,
+    loading:Boolean,
+    clearable:Boolean,
+    readonly:Boolean,
+  },
+  data(){
+      return {
+          isLoading: true
+      }
   },
   computed: {
     inputListeners: function() {
@@ -56,6 +72,9 @@ export default {
         }
       })
     }
+  },
+  created(){
+      this.isLoading = this.loading
   },
   mounted() {
     let ref_name = Object.keys(this.$refs)[0]
