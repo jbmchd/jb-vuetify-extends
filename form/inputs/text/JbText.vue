@@ -53,19 +53,26 @@ export default {
         input: value => {
           if (value) {
             //configurar como os valores colocados pelo usuario devem ser guardados na variavel
-            if (this.mask == 'dinheiro' || this.mask == 'currency') {
-              value = this.currencyUs(value)
-            } else if (this.mask == 'cpf') {
-              value = value.replace(/[-_.]/g, '')
-            } else if (this.mask == 'cnpj' || this.mask == 'cpf_cnpj' || this.mask == 'cns') {
-              value = value.replace(/[-/_.]/g, '')
-            } else if (
-              this.mask == 'percentage' ||
-              this.mask == 'porcentagem'
-            ) {
-              value = this.pegarPorcentagem(value)
-            } else if (this.mask == 'date' || this.mask == 'datetime') {
-              value = this.datahoraUs(value)
+
+            if(this.mask){
+
+                if (this.mask == 'dinheiro' || this.mask == 'currency') {
+                value = this.currencyUs(value)
+                } else if (this.mask == 'cpf') {
+                value = value.replace(/[-_.]/g, '')
+                } else if (this.mask == 'cnpj' || this.mask == 'cpf_cnpj' || this.mask == 'cns') {
+                value = value.replace(/[-/_.]/g, '')
+                } else if (
+                this.mask == 'percentage' ||
+                this.mask == 'porcentagem'
+                ) {
+                value = this.pegarPorcentagem(value)
+                } else if (this.mask == 'date' || this.mask == 'datetime') {
+                value = this.datahoraUs(value)
+                } else {
+                    value = value.match( /\d+|[a-z]|[A-Z]/g ).join('')
+                }
+
             }
           }
           vm.$emit('input', value)

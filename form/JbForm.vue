@@ -25,7 +25,7 @@ export default {
     exibirMensagemCamposObrigatorios: { type: Boolean, default: true },
   },
   data () {    return {
-      valido: false,
+      valid: false,
       mensagem_campos_obrigatorio: {
         exibir: this.exibirMensagemCamposObrigatorios,
         texto: 'Todos os campos marcados com * são obrigatórios'
@@ -33,9 +33,9 @@ export default {
       bolsaCamposInvalidos: []
     }  },
   mounted () {
-    //   console.log('mount', this);
-    // this.emitInput()
+      this.emitInput()
     // this.registrarValidacao()
+    //   console.log('mount', this.valid);
   },
   //   updated() {
   //     this.validarForm()
@@ -47,21 +47,19 @@ export default {
     },
     reset () {
       this.$refs['v-form'].reset()
-      this.validarForm()
+    //   this.validarForm()
     },
     resetValidation () {
       let campos = this.$refs['v-form'].$children
       campos.forEach(campo => {
         if (campo.hasOwnProperty("$v")) {
-
           campo.resetValidation()
         }
       });
-      this.validarForm()
     },
-    // emitInput () {
-    //   this.$emit('input', this.valido)
-    // },
+    emitInput () {
+      this.$emit('input', this.valid)
+    },
     // alterarBolsa (uid, invalido) {
     //   let tem_na_bolsa = this.bolsaCamposInvalidos.includes(uid)
 
@@ -107,11 +105,11 @@ export default {
     //   this.validarForm()
     // },
     // validarForm () {
-    //     this.valido = this.bolsaCamposInvalidos.length < 1
+    //     this.valid = this.bolsaCamposInvalidos.length < 1
     //     this.emitInput()
     // },
     submit (e) {
-      if (this.validar && this.valido) {
+      if (this.validar && this.valid) {
         return false
       }
     }

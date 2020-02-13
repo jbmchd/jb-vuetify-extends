@@ -24,14 +24,15 @@ export default {
         uf:String,
     },
     data: function () { return {
-        cod: null,
         cidades:[],
         cidade: null,
     }},
     created() {
+
         if(this.uf){
             this.buscar(this.uf)
-            if(this.cod) {
+
+            if(this.vmodel) {
                 this.selecionar()
             }
         }
@@ -41,9 +42,11 @@ export default {
     },
     watch:{
         uf(uf){
-            this.cod = null
             this.buscar(uf)
         },
+        vmodel(){
+            this.selecionar()
+        }
     },
     methods:{
         buscar(uf){
@@ -58,8 +61,9 @@ export default {
             })
         },
         selecionar(){
+            this.cidade = null
             for (const cidade of this.cidades) {
-                if(cidade.cod == this.cod){
+                if(cidade.cod == this.vmodel){
                     this.cidade = cidade
                 }
             }

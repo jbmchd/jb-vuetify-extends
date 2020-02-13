@@ -29,7 +29,9 @@
                 v-model="vmodel"
                 :tipo="tipo"
                 @change="emitInput"
-                no-title scrollable
+                no-title
+                scrollable
+                :historic="historic"
             >
 
             </jb-datetime-picker>
@@ -46,6 +48,7 @@ export default {
     mixins: [inputBaseMixin],
     props:{
         tipo:{type:String, default:'date'},
+        historic:Boolean,
     },
 
     data () {return{

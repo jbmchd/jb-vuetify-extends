@@ -41,7 +41,6 @@ export default {
   },
   methods: {
     resetValidation(){
-    //   this.$refs['jb-text'].resetValidation()
         this.resetarValidacaoNoFilho()
     },
     alternarExibicao() {
