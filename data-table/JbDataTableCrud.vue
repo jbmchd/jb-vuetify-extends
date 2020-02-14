@@ -102,12 +102,13 @@ export default {
 
     formOptions:Object,
     dialogOptions:Object,
+
+    formResetDados:Object,
   },
   data() {return {
       popover:{
         show: false
       },
-      dadosReset:[],
       dialog_options: Object.assign({
         mostrar: false,
         maxWidth: '750px',
@@ -170,7 +171,7 @@ export default {
     },
     resetar(){
       this.table.index_selecionado = -1
-      this.atualizarVModel(this.dadosReset)
+      this.atualizarVModel(this.formResetDados)
       this.$refs['jb-form'].resetValidation()
     },
     abrirDialog(){
@@ -232,6 +233,7 @@ export default {
           this.$emit('salvar',item, this)
         }
         this.form.valido = true
+        this.resetar()
       })
     },
     deletarConfirm (item, index) {

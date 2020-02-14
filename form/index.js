@@ -7,7 +7,7 @@ import JbTextDatetime from './inputs/text/JbTextDatetime.vue'
 import JbSelect from './inputs/select/JbSelect.vue'
 import JbAutocomplete from './inputs/autocomplete/JbAutocomplete.vue'
 import JbAutoLogradouroTipos from './inputs/autocomplete/JbAutoLogradouroTipos.vue'
-import JbAutocompleteUf from './inputs/autocomplete/JbAutoUf.vue'
+import JbAutocompleteUf from './inputs/autocomplete/JbAutoUF.vue'
 import JbAutoCidades from './inputs/autocomplete/JbAutoCidades.vue'
 import JbCombobox from './inputs/combobox/JbCombobox.vue'
 
