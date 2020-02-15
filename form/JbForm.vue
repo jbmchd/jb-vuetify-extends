@@ -22,24 +22,31 @@
 export default {
   props: {
     validar: { type: Boolean, default: true },
-    exibirMensagemCamposObrigatorios: { type: Boolean, default: true },
+    exibirMensagemCamposObrigatorios: { type: Boolean, default: null },
   },
   data () {    return {
       valid: false,
-      mensagem_campos_obrigatorio: {
-        exibir: this.exibirMensagemCamposObrigatorios,
-        texto: 'Todos os campos marcados com * são obrigatórios'
-      },
-      bolsaCamposInvalidos: []
+      bolsaCamposInvalidos: [],
+      tem_campos_obrigatorios: false,
     }  },
-  mounted () {
-      this.emitInput()
-    // this.registrarValidacao()
-    //   console.log('mount', this.valid);
+  computed: {
+    mensagem_campos_obrigatorio () {
+      let exibir = this.exibirMensagemCamposObrigatorios === null ? this.tem_campos_obrigatorios : this.exibirMensagemCamposObrigatorios
+      let mensagem_campos_obrigatorio = {
+        exibir: exibir,
+        texto: 'Todos os campos marcados com * são obrigatórios'
+      }
+
+      return mensagem_campos_obrigatorio
+    }
   },
-  //   updated() {
-  //     this.validarForm()
-  //   },
+  mounted () {
+    this.registrarValidacao()
+    this.validarForm()
+  },
+  updated () {
+    this.validarForm()
+  },
   methods: {
     resetAll () {
       this.reset()
@@ -47,7 +54,7 @@ export default {
     },
     reset () {
       this.$refs['v-form'].reset()
-    //   this.validarForm()
+      this.validarForm()
     },
     resetValidation () {
       let campos = this.$refs['v-form'].$children
@@ -58,56 +65,57 @@ export default {
       });
     },
     emitInput () {
+
       this.$emit('input', this.valid)
     },
-    // alterarBolsa (uid, invalido) {
-    //   let tem_na_bolsa = this.bolsaCamposInvalidos.includes(uid)
+    alterarBolsa (uid, invalido) {
+      let tem_na_bolsa = this.bolsaCamposInvalidos.includes(uid)
 
-    //   if (tem_na_bolsa) {
-    //     this.bolsaCamposInvalidos.splice(this.bolsaCamposInvalidos.indexOf(uid), 1);
-    //   }
+      if (tem_na_bolsa) {
+        this.bolsaCamposInvalidos.splice(this.bolsaCamposInvalidos.indexOf(uid), 1);
+      }
 
-    //   if (invalido) {
-    //     this.bolsaCamposInvalidos.push(uid)
-    //   }
-    // },
-    // registrarValidacao () {
-    //     console.log('registrar');
+      if (invalido) {
+        this.bolsaCamposInvalidos.push(uid)
+      }
+    },
+    registrarValidacao () {
+      let campos = this.$refs['v-form'].$children
 
-    //   let campos = this.$refs['v-form'].$children
+      for (const key in campos) {
+        const el = campos[key];
 
-    //   for (const key in campos) {
-    //     const el = campos[key];
+        if (el.hasOwnProperty("$v")) {
+          let uid = el._uid
+          let vmodel = el.$v.vmodel
+          if (vmodel.hasOwnProperty('required')) {
+            this.tem_campos_obrigatorios = true
+          }
 
-    //     if (el.hasOwnProperty("$v")) {
-    //       let uid = el._uid
-    //       let vmodel = el.$v.vmodel
 
-    //       this.alterarBolsa(uid, vmodel.$invalid)
+          this.alterarBolsa(uid, vmodel.$invalid)
 
-    //       this.$watch(() => vmodel.$model, () => {
-    //         this.alterarBolsa(uid, vmodel.$invalid)
-    //         this.validarForm()
-    //       })
+          this.$watch(() => vmodel.$model, () => {
+            this.alterarBolsa(uid, vmodel.$invalid)
+            this.validarForm()
+          })
 
-    //       this.$watch(() => vmodel.$pending, (pending, old_pending) => {
-    //           console.log(pending, old_pending);
-
-    //         let invalid = true
-    //         if (!pending) {
-    //             invalid = vmodel.$invalid
-    //         }
-    //         this.alterarBolsa(uid, invalid)
-    //         this.validarForm()
-    //       })
-    //     }
-    //   }
-    //   this.validarForm()
-    // },
-    // validarForm () {
-    //     this.valid = this.bolsaCamposInvalidos.length < 1
-    //     this.emitInput()
-    // },
+          this.$watch(() => vmodel.$pending, pending => {
+            let invalid = true
+            if (!pending) {
+              invalid = vmodel.$invalid
+            }
+            this.alterarBolsa(uid, invalid)
+            this.validarForm()
+          })
+        }
+      }
+      this.validarForm()
+    },
+    validarForm () {
+      this.valid = this.bolsaCamposInvalidos.length < 1
+      this.emitInput()
+    },
     submit (e) {
       if (this.validar && this.valid) {
         return false
