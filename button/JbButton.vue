@@ -3,7 +3,7 @@
     <span>
         <v-tooltip v-bind="tooltip_options">
             <template v-slot:activator="{ on: onTooltip  }">
-                <v-btn 
+                <v-btn
                     ref="v-btn"
                     v-bind="$attrs"
                     v-on="{ ...onTooltip, ...$listeners }"

@@ -38,7 +38,7 @@
 
           <jb-btn v-if="podeEditar" small color="amber" outlined @click="editar(item, $attrs.items.indexOf(item))" class="my-1 mx-1" tooltip="Editar" > <v-icon small> mdi mdi-pencil </v-icon> </jb-btn>
           <jb-btn v-if="podeAtivarInativar" small color="primary" outlined @click="ativarInativarConfirm(item, $attrs.items.indexOf(item))" class="my-1 mx-1" :tooltip="item.ativo ? 'Inativar' : 'Ativar'" > <v-icon small> mdi {{ item.ativo ? 'mdi-arrow-up' : 'mdi-arrow-down'}} </v-icon> </jb-btn>
-          <jb-btn v-if="podeDeletar" small color="red" outlined @click="deletarConfirm(item, $attrs.items.indexOf(item))" class="my-1 mx-1"> <v-icon small tooltip="Deletar" > mdi mdi-delete </v-icon> </jb-btn>
+          <jb-btn v-if="podeDeletar" small color="red" outlined @click="deletarConfirm(item, $attrs.items.indexOf(item))" class="my-1 mx-1" tooltip="Deletar"> <v-icon small> mdi mdi-delete </v-icon> </jb-btn>
 
           <slot name="actions-append" :item="item" :header="header" :value="value" :index="$attrs.items.indexOf(item)"></slot>
 
@@ -48,8 +48,10 @@
   </jb-data-table>
 
   <jb-dialog
+    v-if="dialog_options.abrir"
+    ref="jb-dialog"
     v-bind="dialog_options"
-    v-model="dialog_options.mostrar"
+    v-model="dialog_options.abrir"
     :titulo="formTitulo"
   >
 
@@ -95,7 +97,7 @@ export default {
     podeAdicionar:{type:Boolean, default:true},
     podeEditar:{type:Boolean, default:true},
     podeAtivarInativar:{type:Boolean, default:true},
-    podeDeletar:{type:Boolean, default:false},
+    podeDeletar:{type:Boolean, default:true},
 
     btnAddTexto:String,
     loadingColor: { type: String, default: '#0079bf' },
@@ -103,14 +105,14 @@ export default {
     formOptions:Object,
     dialogOptions:Object,
 
-    formResetDados:Object,
+    formResetar:Function,
   },
   data() {return {
       popover:{
         show: false
       },
       dialog_options: Object.assign({
-        mostrar: false,
+        abrir: false,
         maxWidth: '750px',
         persistent: true,
         manter_aberto: false,
@@ -127,7 +129,7 @@ export default {
         dados:this.value,
       },
       loading:{
-        mostrar:false
+        abrir:false
       },
       table:{
         search: this.tableSearch,
@@ -171,15 +173,21 @@ export default {
     },
     resetar(){
       this.table.index_selecionado = -1
-      this.atualizarVModel(this.formResetDados)
+
+      if (this.formResetar){
+        let obj = this.formResetar()
+        this.atualizarVModel(obj)
+      }
+
       this.$refs['jb-form'].resetValidation()
     },
     abrirDialog(){
-      this.dialog_options.mostrar = true
+      this.dialog_options.abrir = true
     },
     dialogCancel() {
-      if( ! this.dialog_options.manter_aberto){
-        this.dialog_options.mostrar = false
+
+        if( ! this.dialog_options.manter_aberto){
+            this.dialog_options.abrir = false
       }
 
       this.resetar()
@@ -233,7 +241,7 @@ export default {
           this.$emit('salvar',item, this)
         }
         this.form.valido = true
-        this.resetar()
+        this.dialogCancel()
       })
     },
     deletarConfirm (item, index) {

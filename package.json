@@ -1,6 +1,6 @@
 {
   "name": "@jbmchd-vue/jb-vuetify-extends",
-  "version": "2.0.12",
+  "version": "2.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -18,12 +18,13 @@
   "homepage": "https://github.com/jbmchd/jb-vuetify-extends#readme",
   "dependencies": {
     "axios": "^0.19",
-    "inputmask": "^5.0.0",
+    "inputmask": "^5.0.3",
     "@mdi/font": "^4.6.95",
     "moment": "^2.24.0",
     "vuelidate": "^0.7.4",
     "v-calendar": "^1.0.0-beta.22",
     "@sweetalert2/theme-material-ui": "3.1.0",
-    "@jbmchd-vue/jb-v-global": "2.0.6"
+    "@jbmchd-vue/jb-v-global": "2.0.6",
+    "vue-currency-input": "^1.17.3"
   }
 }

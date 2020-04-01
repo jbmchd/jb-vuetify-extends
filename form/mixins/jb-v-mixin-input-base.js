@@ -27,6 +27,7 @@ const inputBaseMixin = {
           configurar como os valores devem ser exibidos para usuario
           o value deve ser sempre no formato bruto (como no banco de dados)
         */
+
         let v = this.value_data || this.value
         return this.mask ? this.vmodel_masked(v) : v
       },
@@ -48,7 +49,7 @@ const inputBaseMixin = {
     }
   },
   methods: {
-    vmodel_masked(value) {
+    vmodel_masked(value) { //configurar como os valores devem ser exibidos para o usuario
       if (value) {
         if (this.mask == 'date' || this.mask == 'datetime') {
           value = value.split(' ')
@@ -57,16 +58,8 @@ const inputBaseMixin = {
             .reverse()
             .join('/')
           value = value.join(' ')
-        } else if (this.mask == 'dinheiro' || this.mask == 'currency') {
-          let inteiro = parseInt(value)
-          let restante = parseFloat((value - inteiro).toFixed(2))
-
-          value = restante ? (inteiro + restante).toFixed(2) : value * 100
         } else if (this.mask == 'percentage' || this.mask == 'porcentagem') {
-          value = value
-            .toString()
-            .split('.')
-            .join(',')
+          value = value.toString().split('.').join(',')
         }
       }
       return value

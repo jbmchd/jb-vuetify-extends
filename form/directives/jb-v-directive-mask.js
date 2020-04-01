@@ -22,12 +22,7 @@ let mascaras_padrao = [
 //================== ALIASES
 let mascaras_extendidas = {
   currency: {
-    prefix: 'R$ ',
-    groupSeparator: '.',
-    radixPoint: ',',
-    numericInput: true,
-    autoGroup: true,
-    rightAlign: true
+    // to use v-money
   },
   percentage: {
     suffix: '%',
@@ -86,12 +81,15 @@ let mascaras_extendidas = {
 
 Inputmask.extendAliases(mascaras_extendidas)
 
-const aplicarMascara = function(el, binding) {
-  let alias = binding.value // mascara ou alias
+const aplicarMascara = function(el, alias) {
+//   let alias = binding.value // mascara ou alias
+//   if(alias == "dinheiro" && alias == "money"){
+//     return alias
+//   }
 
-  if (!alias) {
-    return alias
-  }
+//   if (!alias) {
+//     return alias
+//   }
   let input = el.tagName == 'INPUT' ? el : el.getElementsByTagName('input')[0]
 
   let options = null
@@ -102,15 +100,23 @@ const aplicarMascara = function(el, binding) {
     options = mascaras_extendidas[alias]
   }
 
+
   Inputmask(alias, options).mask(input)
+
 }
 
 export default {
   //aplica a mascara ao input
   bind: function(el, binding) {
-    aplicarMascara(el, binding)
+    let alias = binding.value // mascara ou alias
+    if(alias && !(alias == "dinheiro" || alias == "money")){
+        aplicarMascara(el, alias)
+    }
   },
   update: function(el, binding) {
-    aplicarMascara(el, binding)
+    let alias = binding.value // mascara ou alias
+    if(alias && !(alias == "dinheiro" || alias == "money")){
+        aplicarMascara(el, alias)
+    }
   }
 }
