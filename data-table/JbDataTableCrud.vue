@@ -36,9 +36,9 @@
 
           <slot name="actions-prepend" :item="item" :header="header" :value="value" :index="$attrs.items.indexOf(item)" ></slot>
 
-          <jb-btn v-if="podeEditar" small color="amber" outlined @click="editar(item, $attrs.items.indexOf(item))" class="my-1 mx-1" tooltip="Editar" > <v-icon small> mdi mdi-pencil </v-icon> </jb-btn>
-          <jb-btn v-if="podeAtivarInativar" small color="primary" outlined @click="ativarInativarConfirm(item, $attrs.items.indexOf(item))" class="my-1 mx-1" :tooltip="item.ativo ? 'Inativar' : 'Ativar'" > <v-icon small> mdi {{ item.ativo ? 'mdi-arrow-up' : 'mdi-arrow-down'}} </v-icon> </jb-btn>
-          <jb-btn v-if="podeDeletar" small color="red" outlined @click="deletarConfirm(item, $attrs.items.indexOf(item))" class="my-1 mx-1" tooltip="Deletar"> <v-icon small> mdi mdi-delete </v-icon> </jb-btn>
+          <jb-btn v-if="podeEditar" text x-small color="amber" @click="editar(item, $attrs.items.indexOf(item))" class="my-2" tooltip="Editar" > <v-icon small> mdi mdi-pencil </v-icon> </jb-btn>
+          <jb-btn v-if="podeAtivarInativar" text x-small color="primary" @click="ativarInativarConfirm(item, $attrs.items.indexOf(item))" class="my-2" :tooltip="item.ativo ? 'Inativar' : 'Ativar'" > <v-icon small> mdi {{ item.ativo ? 'mdi-arrow-up' : 'mdi-arrow-down'}} </v-icon> </jb-btn>
+          <jb-btn v-if="podeDeletar" text x-small color="red" @click="deletarConfirm(item, $attrs.items.indexOf(item))" class="my-2" tooltip="Deletar"> <v-icon small> mdi mdi-delete </v-icon> </jb-btn>
 
           <slot name="actions-append" :item="item" :header="header" :value="value" :index="$attrs.items.indexOf(item)"></slot>
 
@@ -75,7 +75,7 @@
             <v-btn small text color="grey" @click="dialogCancel()"> Cancelar </v-btn>
           </slot>
           <slot name="form-botao-salvar" :salvarConfirm="salvarConfirm">
-            <v-btn small text color="primary" @click="salvarConfirm()" :disabled="!form.valido" > Confirmar </v-btn>
+            <v-btn small text color="primary" @click="salvarConfirm()" :disabled="!formValido" > Confirmar </v-btn>
           </slot>
         </v-col>
       </v-row>
@@ -111,19 +111,6 @@ export default {
       popover:{
         show: false
       },
-      dialog_options: Object.assign({
-        abrir: false,
-        maxWidth: '750px',
-        persistent: true,
-        manter_aberto: false,
-        titulo: {
-          novo: "Adicionar",
-          editar: "Editar",
-        },
-      }, this.dialogOptions),
-      form_options: Object.assign({
-        valido: true
-      }, this.formOptions),
       form:{
         valido:false,
         dados:this.value,
@@ -135,8 +122,23 @@ export default {
         search: this.tableSearch,
         index_selecionado: -1,
       },
+      dialog_options_default: {
+          abrir: false,
+            maxWidth: '750px',
+            persistent: true,
+            manter_aberto: false,
+            titulo: {
+                novo: "Adicionar",
+                editar: "Editar",
+            },
+      },
+      form_options_default: {
+          valido:true
+      }
   }},
   computed: {
+    dialog_options(){ return Object.assign( this.dialog_options_default, this.dialogOptions ) },
+    form_options(){ return Object.assign( this.form_options_default, this.formOptions) },
     tituloNovo(){ return typeof this.dialog_options.titulo=='string' ? this.dialog_options.titulo : this.dialog_options.titulo.novo},
     tituloEditar(){return typeof this.dialog_options.titulo=='string' ? this.dialog_options.titulo : this.dialog_options.titulo.editar},
     formTitulo() { return this.table.index_selecionado === -1 ? this.tituloNovo :  this.tituloEditar },
@@ -147,10 +149,13 @@ export default {
   },
   created () {
     this.table.index_selecionado = -1
-    this.$jb.copiar(this.form.dados)
+  },
+  watch: {
+      value(v){
+          this.form.dados = v
+      }
   },
   methods: {
-
     preNovo(...params){this.$emit('pre-novo', ...params)},
     preEditar(item, index, ...params){
       this.$emit('pre-editar', item, index, ...params)

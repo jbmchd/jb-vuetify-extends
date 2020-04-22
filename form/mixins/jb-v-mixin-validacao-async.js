@@ -2,32 +2,32 @@
 const validacaoMixin = {
     data () {
         return {
-            vmodel_erros_servidor: null,
-            dados: {},
+            vmodel_erros_vuex: null,
+            payload: {},
         }
     },
     computed: {
-        getServidorDados(){
+        getVuexDados(){
             for (const key in this.regras) {
                 const regra = this.regras[key];
-                if (typeof regra == 'object' && regra.hasOwnProperty('servidor')) {
-                    return regra.servidor
+                if (typeof regra == 'object' && regra.hasOwnProperty('vuex')) {
+                    return regra.vuex
                 }
             }
         }
     },
     methods: {
-        async servidor () {
-            let dados = this.getServidorDados
+        async vuex () {
+            let payload = this.getVuexDados
+            let response = await this.$store.dispatch(payload.action, payload.payload)
 
-            let response = await this.$store.dispatch(dados.nome, dados.params)
-
-            if (response.dados === true) {
-                this.vmodel_erros_servidor = null
+            if (response === true) {
+                this.vmodel_erros_vuex = null
                 return true
             }
             else {
-                this.vmodel_erros_servidor = response.dados
+                let msg = typeof response == 'string' ? response : response.toString()
+                this.vmodel_erros_vuex = msg
                 return false
             }
         },

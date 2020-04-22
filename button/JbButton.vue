@@ -1,6 +1,6 @@
 <template>
 
-    <span>
+    <div class="d-inline-flex">
         <v-tooltip v-bind="tooltip_options">
             <template v-slot:activator="{ on: onTooltip  }">
                 <v-btn
@@ -14,7 +14,7 @@
 
             <span>{{tooltip_options.message}}</span>
         </v-tooltip>
-    </span>
+    </div>
 
 </template>
 <script>

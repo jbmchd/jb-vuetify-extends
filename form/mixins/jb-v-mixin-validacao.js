@@ -22,18 +22,19 @@ const validacaoMixin = {
                 mensagem = this.vmodel_erros_vuelidate
             }
             else {
-                mensagem = this.vmodel_erros_servidor
+                mensagem = this.vmodel_erros_vuex
             }
+
             return mensagem
 
         },
     },
     mounted () {
-        let servidor_dados = this.getServidorDados
-        if(servidor_dados){
-            this.validarPeloServidor()
+        let vuex_dados = this.getVuexDados
+        if(vuex_dados){
+            this.validarPeloVuex()
             this.$watch(() => this.vmodel, () => {
-                this.validarPeloServidor()
+                this.validarPeloVuex()
             })
         }
     },
@@ -41,13 +42,13 @@ const validacaoMixin = {
         resetValidation () {
             this.resetVuelidateValidation()
         },
-        async validarPeloServidor(){
+        async validarPeloVuex(){
             if (this.vmodel_erros_vuelidate) {
-                this.vmodel_erros_servidor = null
+                this.vmodel_erros_vuex = null
                 return
             }
             this.isLoading = true
-            await this.servidor()
+            await this.vuex()
             this.isLoading = false
         }
     },

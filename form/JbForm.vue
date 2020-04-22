@@ -7,12 +7,14 @@
     @submit.stop.prevent="submit"
   >
 
-    <v-col class="text-right">
-      <div
-        class="text-light"
-        style="font-size:12px"
-      >{{mensagem_campos_obrigatorio.exibir ? mensagem_campos_obrigatorio.texto : ''}}</div>
-    </v-col>
+    <v-row>
+      <v-col class="text-right">
+        <div
+          class="text-light"
+          style="font-size:12px"
+        >{{mensagem_campos_obrigatorio.exibir ? mensagem_campos_obrigatorio.texto : ''}}</div>
+      </v-col>
+    </v-row>
 
     <slot></slot>
   </v-form>
@@ -65,7 +67,6 @@ export default {
       });
     },
     emitInput () {
-
       this.$emit('input', this.valid)
     },
     alterarBolsa (uid, invalido) {
@@ -94,6 +95,12 @@ export default {
 
 
           this.alterarBolsa(uid, vmodel.$invalid)
+
+          this.$watch(() => el.vmodel_erros_vuex, result => {
+              let invalid = typeof result === 'string'
+              this.alterarBolsa(uid, invalid)
+              this.validarForm()
+          })
 
           this.$watch(() => vmodel.$model, () => {
             this.alterarBolsa(uid, vmodel.$invalid)

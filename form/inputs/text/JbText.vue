@@ -20,7 +20,7 @@
 
 <script>
 import inputBaseMixin from '../../mixins/jb-v-mixin-input-base'
-import directiveMoney from './../../directives/jb-v-directive-money'
+// import directiveMoney from './../../directives/jb-v-directive-money'
 
 export default {
   mixins: [inputBaseMixin],

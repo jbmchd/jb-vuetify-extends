@@ -1,6 +1,6 @@
 {
   "name": "@jbmchd-vue/jb-vuetify-extends",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "vuelidate": "^0.7.4",
     "v-calendar": "^1.0.0-beta.22",
     "@sweetalert2/theme-material-ui": "3.1.0",
-    "@jbmchd-vue/jb-v-global": "2.0.6",
+    "@jbmchd-vue/jb-v-global": "2.0.7",
     "vue-currency-input": "^1.17.3"
   }
 }
