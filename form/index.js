@@ -11,6 +11,7 @@ import JbAutocompleteUf from './inputs/autocomplete/JbAutoUF.vue'
 import JbAutoCidades from './inputs/autocomplete/JbAutoCidades.vue'
 import JbCombobox from './inputs/combobox/JbCombobox.vue'
 import JbTextarea from './inputs/JbTextarea.vue'
+import JbFieldset from './JbFieldset.vue'
 
 Vue.component('jb-form', JbForm)
 Vue.component('jb-text', JbText)
@@ -26,3 +27,5 @@ Vue.component('jb-auto-cidades', JbAutoCidades)
 Vue.component('jb-combobox', JbCombobox)
 
 Vue.component('jb-textarea', JbTextarea)
+
+Vue.component('jb-fieldset', JbFieldset)
