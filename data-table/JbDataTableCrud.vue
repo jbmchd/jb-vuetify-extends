@@ -37,7 +37,7 @@
           <slot name="actions-prepend" :item="item" :header="header" :value="value" :index="$attrs.items.indexOf(item)" ></slot>
 
           <jb-btn v-if="podeEditar" text x-small color="amber" @click="editar(item, $attrs.items.indexOf(item))" class="my-2" tooltip="Editar" > <v-icon small> mdi mdi-pencil </v-icon> </jb-btn>
-          <jb-btn v-if="podeAtivarInativar" text x-small color="primary" @click="ativarInativarConfirm(item, $attrs.items.indexOf(item))" class="my-2" :tooltip="item.ativo ? 'Inativar' : 'Ativar'" > <v-icon small> mdi {{ item.ativo ? 'mdi-arrow-up' : 'mdi-arrow-down'}} </v-icon> </jb-btn>
+          <jb-btn v-if="podeAtivarInativar" text x-small color="primary" @click="ativarInativarConfirm(item, $attrs.items.indexOf(item))" class="my-2" :tooltip="item.ativo ? 'Inativar' : 'Ativar'" > <v-icon small> mdi {{ item.ativo ? 'mdi-arrow-down' : 'mdi-arrow-up'}} </v-icon> </jb-btn>
           <jb-btn v-if="podeDeletar" text x-small color="red" @click="deletarConfirm(item, $attrs.items.indexOf(item))" class="my-2" tooltip="Deletar"> <v-icon small> mdi mdi-delete </v-icon> </jb-btn>
 
           <slot name="actions-append" :item="item" :header="header" :value="value" :index="$attrs.items.indexOf(item)"></slot>
@@ -105,7 +105,7 @@ export default {
     formOptions:Object,
     dialogOptions:Object,
 
-    formResetar:Function,
+    formResetar:[Function, Object],
   },
   data() {return {
       popover:{
@@ -180,7 +180,7 @@ export default {
       this.table.index_selecionado = -1
 
       if (this.formResetar){
-        let obj = this.formResetar()
+        let obj = typeof this.formResetar == 'function' ? this.formResetar() : this.formResetar
         this.atualizarVModel(obj)
       }
 

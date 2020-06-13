@@ -7,3 +7,5 @@ require('./button');
 require('./dialog');
 require('./data-table');
 require('./calendar');
+require('./bloco');
+require('./menubloco');
