@@ -1,6 +1,7 @@
 {
-  "name": "@jbmchd-vue/jb-vuetify-extends",
+  "name": "@jbmchd/jb-vuetify-extends",
   "version": "2.2.0",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "description": "",
   "main": "index.js",
   "scripts": {
