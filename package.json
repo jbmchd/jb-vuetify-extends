@@ -1,6 +1,6 @@
 {
   "name": "@jbmchd/jb-vuetify-extends",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "description": "",
   "main": "index.js",
@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/jbmchd/jb-vuetify-extends#readme",
   "dependencies": {
-  	"@jbmchd/jb-vue-global": "1.0.1",
+  	"@jbmchd/jb-vue-global": "1.0.2",
     "axios": "^0.19",
     "inputmask": "^5.0.3",
     "@mdi/font": "^5.3.45",
